@@ -1,0 +1,126 @@
+CREATE TABLE Branch_Dim
+(
+  Branch_ID NUMBER(10, 2) NOT NULL,
+  City VARCHAR2(100) NOT NULL,
+  Country VARCHAR2(100) NOT NULL,
+  PRIMARY KEY (Branch_ID)
+);
+
+CREATE TABLE Date_Dim
+(
+  Date_ID NUMBER(10, 2) NOT NULL,
+  Minute NUMBER(10, 2) NOT NULL,
+  Hour NUMBER(10, 2) NOT NULL,
+  Week NUMBER(10, 2) NOT NULL,
+  Month NUMBER(10, 2) NOT NULL,
+  Quarter NUMBER(10, 2) NOT NULL,
+  Year NUMBER(10, 2) NOT NULL,
+  Day NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (Date_ID)
+);
+
+CREATE TABLE Employee_Dim
+(
+  Member_ID NUMBER(10, 2) NOT NULL,
+  FName VARCHAR2(100) NOT NULL,
+  LNname VARCHAR2(100) NOT NULL,
+  DOB VARCHAR2(50),
+  Gender_ VARCHAR2(5) NOT NULL,
+  City VARCHAR2(100),
+  Country VARCHAR2(100),
+  Email VARCHAR2(100),
+  Position VARCHAR2(10) NOT NULL,
+  HireDate DATE NOT NULL,
+  Phone VARCHAR2(20) NOT NULL,
+  PRIMARY KEY (Member_ID)
+);
+
+CREATE TABLE Services_Dim
+(
+  Service_ID NUMBER(10, 2) NOT NULL,
+  Category VARCHAR2(50) NOT NULL,
+  Transaction_Type VARCHAR2(25) NOT NULL,
+  Interest_Rate NUMBER(10, 2) NOT NULL,
+  Amount NUMBER(10, 2) NOT NULL,
+  Duration NUMBER(10, 2) NOT NULL,
+  Year NUMBER(10, 2) NOT NULL,
+  Month NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (Service_ID)
+);
+
+CREATE TABLE Customer_Dim
+(
+  Customer_ID NUMBER(10, 2) NOT NULL,
+  FName VARCHAR2(50) NOT NULL,
+  LName VARCHAR2(50) NOT NULL,
+  Gender VARCHAR2(20) NOT NULL,
+  City VARCHAR2(100),
+  Country VARCHAR2(100),
+  Age NUMBER(10, 2),
+  Email VARCHAR2(100),
+  Phone VARCHAR2(50),
+  Job_ VARCHAR2(50) NOT NULL,
+  Marital VARCHAR2(20) NOT NULL,
+  Education VARCHAR2(50) NOT NULL,
+  Default_ NUMBER(10, 2) NOT NULL,
+  Balance NUMBER(10, 2) NOT NULL,
+  Housing NUMBER(10, 2) NOT NULL,
+  Loan NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (Customer_ID)
+);
+
+CREATE TABLE Transactions_Fact
+(
+  ID NUMBER(10, 2) NOT NULL,
+  Renewed NUMBER(10, 2),
+  Cancelled NUMBER(10, 2),
+  Expenses NUMBER(10, 2),
+  Approved NUMBER(10, 2),
+  Customer_ID NUMBER(10, 2) NOT NULL,
+  Service_ID NUMBER(10, 2) NOT NULL,
+  Date_ID NUMBER(10, 2) NOT NULL,
+  Branch_ID NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Customer_ID) REFERENCES Customer_Dim(Customer_ID),
+  FOREIGN KEY (Service_ID) REFERENCES Services_Dim(Service_ID),
+  FOREIGN KEY (Date_ID) REFERENCES Date_Dim(Date_ID),
+  FOREIGN KEY (Branch_ID) REFERENCES Branch_Dim(Branch_ID)
+);
+
+CREATE TABLE Customer_Services_Fact
+(
+  Severity_ NUMBER(10, 2) NOT NULL,
+  Action VARCHAR2(20) NOT NULL,
+  Channel_ VARCHAR2(50) NOT NULL,
+  ID NUMBER(10, 2) NOT NULL,
+  Customer_ID NUMBER(10, 2) NOT NULL,
+  Service_ID NUMBER(10, 2) NOT NULL,
+  Date_ID NUMBER(10, 2) NOT NULL,
+  Member_ID NUMBER(10, 2) NOT NULL,
+  Branch_ID NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Customer_ID) REFERENCES Customer_Dim(Customer_ID),
+  FOREIGN KEY (Service_ID) REFERENCES Services_Dim(Service_ID),
+  FOREIGN KEY (Date_ID) REFERENCES Date_Dim(Date_ID),
+  FOREIGN KEY (Member_ID) REFERENCES Employee_Dim(Member_ID),
+  FOREIGN KEY (Branch_ID) REFERENCES Branch_Dim(Branch_ID)
+);
+
+CREATE TABLE Marketing_Campaign_Fact
+(
+  Subscribed NUMBER(10, 2) NOT NULL,
+  ID NUMBER(10, 2) NOT NULL,
+  Duration NUMBER(10, 2) NOT NULL,
+  Campaign NUMBER(10, 2) NOT NULL,
+  Pdays NUMBER(10, 2) NOT NULL,
+  Previous NUMBER(10, 2) NOT NULL,
+  Poutcome VARCHAR2(50) NOT NULL,
+  Contact VARCHAR2(15) NOT NULL,
+  Customer_ID NUMBER(10, 2) NOT NULL,
+  Service_ID NUMBER(10, 2) NOT NULL,
+  Date_ID NUMBER(10, 2) NOT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Customer_ID) REFERENCES Customer_dim(Customer_ID),
+  FOREIGN KEY (Service_ID) REFERENCES Services_Dim(Service_ID),
+  FOREIGN KEY (Date_ID) REFERENCES Date_Dim(Date_ID)
+);
