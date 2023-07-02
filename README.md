@@ -9,7 +9,7 @@ We have covered a lot during the project and those are just some of the steps:
 
 * Spent some time trying to understand the data, business requirements, and analysis scope.
 * Gained insights from the data to address questions stated on the business
-## requirements:
+## Requirements:
 * Used Python to address those questions.
 
 * Used SQL Queries to gain insights.
